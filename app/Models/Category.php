@@ -16,8 +16,8 @@ class Category extends Model
     public function tickets(){
         return $this->hasMany(Ticket::class, 'category_id');
     }
-
-    public function operator_category()
+    // è una funzione diversa da quella in Ticket
+    public function operators()
     {
         return $this->belongsToMany(Operator::class, 'operator_category');
     }

@@ -25,7 +25,8 @@ class Operator extends Model
         return $this->hasMany(Ticket::class, 'operator_id');
     }
 
-    public function operator_category()
+    // è una funzione diversa da quella in Ticket
+    public function categories()
     {
         return $this->belongsToMany(Category::class, 'operator_category');
     }
