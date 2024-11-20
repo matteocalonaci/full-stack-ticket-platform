@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\TicketController;
+use App\Http\Controllers\Admin\OperatorController;
+
 
 use Illuminate\Support\Facades\Auth;
 
@@ -28,6 +32,9 @@ Route::middleware(['auth'])
     ->name('admin.')
     ->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::resource('/tickets', TicketController::class);
+        Route::resource('/categories', CategoryController::class);
+        Route::resource('/operators', OperatorController::class);
 
 
     });
