@@ -60,9 +60,9 @@
                     {{-- Operatore --}}
                     <div class="mb-3">
                         <label class="form-label fw-bold">Operatore *</label>
-                        <select class="form-control select2" id="oprator_id" name="oprator_id" required>
+                        <select class="form-control select2" id="operator_id" name="operator_id" required>
                             @foreach ($operators as $operator)
-                                <option value="{{ $operator->id }}" @if (old('oprator_id') == $operator->id) selected @endif>{{ $operator->name }}</option>
+                                <option value="{{ $operator->id }}" @if (old('operator_id') == $operator->id) selected @endif>{{ $operator->name }}</option>
                             @endforeach
                         </select>
                         @error('oprator_id')
