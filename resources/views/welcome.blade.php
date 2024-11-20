@@ -13,7 +13,7 @@
         </h1>
 
         <p class="col-md-8 fs-4 text-white">Questa applicazione è realizzata in Laravel e consente di gestire e visualizzare i Ticket di supporto. È progettata per un'unica tipologia di utente: l'Admin, che ha accesso a tutte le funzionalità necessarie per gestire gli operatori, i ticket e le categorie assegnabili.</p>
-        <a href="https://github.com/matteocalonaci/full-stack-ticket-platform" class="btn btn-primary btn-lg" type="button">Link repo</a>
+        <a href="https://github.com/matteocalonaci/full-stack-ticket-platform" class="btn btn-primary btn-lg" type="button">Link repository</a>
     </div>
     <div class="content">
         <div class="container text-white">
