@@ -14,11 +14,21 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // Crea un utente admin
-        User::create([
+        $adminUser =[
             'name' => 'Admin User', // Nome dell'admin
             'email' => 'admin@example.com', // Email dell'admin
-            'password' => 'password', // Password criptata
-            'email_verified_at' => now(), // Imposta la data di verifica dell'email
-        ]);
+            'password' => Hash::make('password')
+        ];
+
+            // Crea o aggiorna l'utente admin
+            User::updateOrCreate(
+                [
+                    'email' => $adminUser ['email']],
+                     // Cerca per email
+                [
+                    'name' => $adminUser ['name'],
+                    'password' => $adminUser ['password']
+                ]
+            );
     }
 }
