@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('operators', function (Blueprint $table) {
             $table->id();
+            $table->string('email');
+            $table->string('password');
+            $table->string('state');
+            $table->string('name');
+            $table->string('surname');
+            $table->string('specialization');
             $table->timestamps();
         });
     }
@@ -22,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('operators');
+        Schema::dropIfExists('operator');
     }
 };
