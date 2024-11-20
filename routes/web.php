@@ -1,32 +1,36 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\DashboardController; //<---- Import del controller precedentemente creato!
+use App\Http\Controllers\Admin\DashboardController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+use Illuminate\Support\Facades\Auth;
+
+// ...
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth'])
-    ->prefix('admin') //definisce il prefisso "admin/" per le rotte di questo gruppo
-    ->name('admin.') //definisce il pattern con cui generare i nomi delle rotte cioè "admin.qualcosa"
-    ->group(function () {
+// Disabilita la registrazione prima di includere auth.php
+Auth::routes(['register' => false]); // Disabilita la registrazione
+Route::get('/register', function () {
+    return redirect('/'); // Reindirizza alla home
+});
 
-        //Siamo nel gruppo quindi:
-        // - il percorso "/" diventa "admin/"
-        // - il nome della rotta ->name("dashboard") diventa ->name("admin.dashboard")
+//Istallo composer require laravel/ui
+// è un comando che installa il pacchetto laravel/uinel tuo progetto Laravel.
+// fornisce un modo per personalizzare l'impalcatura di autenticazione, inclusa la possibilità di nascondere il register percorso.
+
+
+
+Route::middleware(['auth'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+
     });
 
+// Includi auth.php dopo aver disabilitato la registrazione
 require __DIR__ . '/auth.php';
