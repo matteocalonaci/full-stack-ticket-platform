@@ -15,16 +15,21 @@ class TicketController extends Controller
      */
     public function index(Request $request)
     {
-        // Inizializza la query
-        $query = Ticket::with(['operators', 'categories']);
+        $query = Ticket::query();
 
-        // Aggiungi la logica di ricerca
         if ($request->has('search') && $request->search != '') {
-            $query->where('title', 'like', '%' . $request->search . '%');
+            $searchTerm = $request->search;
+
+            // Aggiungi la condizione per cercare nel titolo e nel nome dell'operatore
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('title', 'like', '%' . $searchTerm . '%')
+                  ->orWhereHas('operator', function($query) use ($searchTerm) {
+                      $query->where('name', 'like', '%' . $searchTerm . '%');
+                  });
+            });
         }
 
-        // Recupera i ticket paginati
-        $tickets = $query->paginate(5);
+        $tickets = $query->paginate(10); // Modifica il numero di risultati per pagina secondo necessità
 
         return view('admin.tickets.index', compact('tickets'));
     }
@@ -72,7 +77,7 @@ class TicketController extends Controller
     public function show(Ticket $ticket)
     {
         // Recupera il ticket con le relazioni
-        $ticket->load(['operators', 'categories']);
+        $ticket->load(['operator', 'category']);
 
         return view('admin.tickets.show', compact('ticket'));
     }
@@ -82,13 +87,13 @@ class TicketController extends Controller
      */
     public function edit($id)
     {
-        $ticket = Ticket::with(['operators', 'categories'])->findOrFail($id);
+        $ticket = Ticket::with(['operator', 'category'])->findOrFail($id);
         $categories = Category::all();
         $operators = Operator::all();
         $states = ['assegnato', 'in lavorazione', 'chiuso'];
 
 
-        return view('admin.tickets.edit', compact('ticket', 'categories', 'operators', 'states'));
+        return view('admin.tickets.show', compact('ticket', 'categories', 'operators', 'states'));
     }
     /**
      * Aggiorna un ticket esistente.

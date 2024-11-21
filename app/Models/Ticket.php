@@ -17,12 +17,12 @@ class Ticket extends Model
     ];
     use HasFactory;
 
-    public function categories()
+    public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
 
-    public function operators()
+    public function operator()
     {
         return $this->belongsTo(Operator::class, 'operator_id');
     }
