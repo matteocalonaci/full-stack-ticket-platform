@@ -17,7 +17,7 @@
                     {{-- Nome --}}
                     <div class="mb-3">
                         <label class="form-label fw-bold">Nome del Ticket *</label>
-                        <input type="text" class="form-control" id="title" name="title" value="{{ old('title', $ticket->title) }}" required>
+                        <input type="text" class="form-control" id="title" name="title" value="{{ old('title', $ticket->title) }}" readonly>
                         @error('title')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -26,7 +26,7 @@
                     {{-- Descrizione --}}
                     <div class="mb-3">
                         <label class="form-label fw-bold">Descrizione *</label>
-                        <textarea class="form-control" id="description" name="description" required>{{ old('description', $ticket->description) }}</textarea>
+                        <textarea class="form-control" id="description" name="description" readonly>{{ old('description', $ticket->description) }}</textarea>
                         @error('description')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -46,40 +46,42 @@
                         @enderror
                     </div>
 
-                                {{-- Data --}}
+                    {{-- Data --}}
                     <div class="mb-3">
                         <label class="form-label fw-bold">Data *</label>
-                        <input type="date" class="form-control" id="date" name="date" value="{{ old('date', \Carbon\Carbon::parse($ticket->date)->format('Y-m-d')) }}" required>
+                        <input type="date" class="form-control" id="date" name="date" value="{{ old('date', \Carbon\Carbon::parse($ticket->date)->format('Y-m-d')) }}" readonly>
                         @error('date')
-                         <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                                {{-- Operatore --}}
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Operatore *</label>
-                        <select class="form-control select2" id="operator_id" name="operator_id" required>
-                            @foreach ($operators as $operator)
-                                <option value="{{ $operator->id }}" @if (old('operator_id', $ticket->operator_id) == $operator->id) selected @endif>{{ $operator->name }}</option>
-                            @endforeach
-                        </select>
-                        @error('operator_id')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
 
-                        {{-- Categoria --}}
-                                       <div class="mb-3">
-                         <label class="form-label fw-bold">Categoria *</label>
-                        <select class="form-control select2" id="category_id" name="category_id" required>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}" @if (old('category_id', $ticket->category_id) == $category->id) selected @endif>{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                        @error('category_id')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
+               {{-- Operatore --}}
+<div class="mb-3">
+    <label class="form-label fw-bold">Operatore *</label>
+    <select class="form-control select2" id="operator_id" name="operator_id" disabled>
+        @foreach ($operators as $operator)
+            <option value="{{ $operator->id }}" @if (old('operator_id', $ticket->operator_id) == $operator->id) selected @endif>{{ $operator->name }}</option>
+        @endforeach
+    </select>
+    <input type="hidden" name="operator_id" value="{{ old('operator_id', $ticket->operator_id) }}">
+    @error('operator_id')
+        <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
+</div>
+
+{{-- Categoria --}}
+<div class="mb-3">
+    <label class="form-label fw-bold">Categoria *</label>
+    <select class="form-control select2" id="category_id" name="category_id" disabled>
+        @foreach ($categories as $category)
+            <option value="{{ $category->id }}" @if (old('category_id', $ticket->category_id) == $category->id) selected @endif>{{ $category->name }}</option>
+        @endforeach
+    </select>
+    <input type="hidden" name="category_id" value="{{ old('category_id', $ticket->category_id) }}">
+    @error('category_id')
+        <div class="alert alert-danger">{{ $message }}</div>
+    @enderror
+</div>
 
                     <div class="mt-3" style="color: gray">I campi contenenti <b style="color: black">*</b> sono obbligatori </div>
 

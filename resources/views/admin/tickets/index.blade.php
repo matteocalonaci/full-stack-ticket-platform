@@ -34,14 +34,19 @@
                         @foreach ($tickets as $ticket)
                             <tr>
 
-                                <td data-label="Nome">{{ $ticket->title }}</td>
-                                {{-- <td data-label="Operatore">{{ $ticket->operator->name }}</td> --}}
-                                <td data-label="Operatore">Operatore</td>
-                                <td data-label="Operatore">Categoria</td>
+                                <td data-label="Nome">
+                                    <a href="{{ route('admin.tickets.show', $ticket->id) }}" class="text-decoration-none text-dark">
+                                        {{ $ticket->title }}
+                                    </a>
+                                </td>
+                                <td data-label="Operatore">{{ $ticket->operator->name ?? 'N/A' }}</td>
+                                <td data-label="Categoria">{{ $ticket->category->name ?? 'N/A' }}</td>
                                 <td data-label="Stato">{{$ticket->state}}</td>
-                                <td data-label="Azioni">
+                                <td data-label="Azioni" style="width: 3rem">
                                     <div class="d-flex flex-column flex-sm-row justify-content-between">
-                                        <a href="{{ route('admin.tickets.edit', $ticket->id) }}" class="btn btn-warning flex-grow-1 mb-2 btn-custom">Modifica</a>
+                                        <a href="{{ route('admin.tickets.edit', $ticket->id) }}" class="btn btn-warning flex-grow-1 mb-2 btn-custom">
+                                            <i class="fas fa-edit text-white"></i> <!-- Icona di modifica -->
+                                        </a>
                                         <form action="{{ route('admin.tickets.destroy', $ticket->id) }}" method="POST" class="flex-grow-1"
                                             onsubmit="event.preventDefault(); Swal.fire({
                                                 title: 'Elimina il ticket?',
@@ -57,7 +62,9 @@
                                             })">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger w-100 btn-custom">Elimina</button>
+                                            <button type="submit" class="btn btn-danger w-100 btn-custom">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
                                         </form>
                                     </div>
                                 </td>
