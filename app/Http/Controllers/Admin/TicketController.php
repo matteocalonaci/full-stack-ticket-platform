@@ -29,7 +29,7 @@ class TicketController extends Controller
             });
         }
 
-        $tickets = $query->paginate(10); // Modifica il numero di risultati per pagina secondo necessità
+        $tickets = $query->paginate(5);
 
         return view('admin.tickets.index', compact('tickets'));
     }
@@ -93,7 +93,7 @@ class TicketController extends Controller
         $states = ['assegnato', 'in lavorazione', 'chiuso'];
 
 
-        return view('admin.tickets.show', compact('ticket', 'categories', 'operators', 'states'));
+        return view('admin.tickets.edit', compact('ticket', 'categories', 'operators', 'states'));
     }
     /**
      * Aggiorna un ticket esistente.
