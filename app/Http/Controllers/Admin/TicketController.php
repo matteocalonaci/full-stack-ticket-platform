@@ -15,6 +15,10 @@ class TicketController extends Controller
      */
     public function index(Request $request)
     {
+        // Recupera tutte le categorie per il filtro
+        $categories = Category::all();
+
+        // Inizializza la query per i ticket
         $query = Ticket::query();
 
         if ($request->has('search') && $request->search != '') {
@@ -29,9 +33,21 @@ class TicketController extends Controller
             });
         }
 
+        // Filtra per categoria se è stato selezionato
+        if ($request->has('category_id') && $request->category_id != '') {
+            $query->where('category_id', $request->category_id);
+        }
+
+        // Filtra per stato se è stato selezionato
+        if ($request->has('state') && $request->state != '') {
+            $query->where('state', $request->state);
+        }
+
+        // Recupera i ticket filtrati
+        $tickets = $query->get();
         $tickets = $query->paginate(5);
 
-        return view('admin.tickets.index', compact('tickets'));
+        return view('admin.tickets.index', compact('tickets', 'categories'));
     }
 
     public function create()

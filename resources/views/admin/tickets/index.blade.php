@@ -1,20 +1,41 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container" >
+    <div class="container">
         <h1 class="text-center pt-4">Catalogo ticket</h1>
         <div class="d-flex flex-wrap justify-content-end align-items-center p-4">
             <button class="btn-add-ticket btn btn-primary mt-3" type="button" onclick="window.location.href='{{ route('admin.tickets.create') }}'">
                 Aggiungi un nuovo ticket
             </button>
-
         </div>
-        <div class=" search-bar mb-1 mt-2 d-flex justify-content-end mx-2 mx-md-4">
+
+        <div class="search-bar mb-1 mt-2 d-flex justify-content-end mx-2 mx-md-4">
             <form method="GET" action="{{ route('admin.tickets.index') }}" class="w-100">
                 <div class="input-group">
                     <input type="text" name="search" class="form-control" placeholder="Cerca un ticket..." value="{{ request('search') }}">
                     <button class="btn btn-outline-secondary" style="background-color: white; color:black" type="submit">Cerca</button>
                 </div>
+            </form>
+        </div>
+
+        <div class="filter-bar mb-3 d-flex justify-content-end mx-2 mx-md-4">
+            <form method="GET" action="{{ route('admin.tickets.index') }}" class="d-flex">
+                <select name="category_id" class="form-select me-2">
+                    <option value="">Seleziona una categoria</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
+                <select name="state" class="form-select me-2">
+                    <option value="">Seleziona uno stato</option>
+                    <option value="assegnato" {{ request('state') == 'assegnato' ? 'selected' : '' }}>assegnato</option>
+                    <option value="in_lavorazione" {{ request('state') == 'in_lavorazione' ? 'selected' : '' }}>in lavorazione</option>
+                    <option value="closed" {{ request('state') == 'closed' ? 'selected' : '' }}>chiuso</option>
+                    <!-- Aggiungi altri stati se necessario -->
+                </select>
+                <button class="btn btn-primary" type="submit">Filtra</button>
             </form>
         </div>
 
@@ -33,15 +54,14 @@
                     <tbody id="ticketTableBody">
                         @foreach ($tickets as $ticket)
                             <tr>
-
-                                <td data-label="Nome">
+                                <td data-label=" Nome">
                                     <a href="{{ route('admin.tickets.show', $ticket->id) }}" class="text-decoration-none text-dark">
                                         {{ $ticket->title }}
                                     </a>
                                 </td>
                                 <td data-label="Operatore">{{ $ticket->operator->name ?? 'N/A' }}</td>
                                 <td data-label="Categoria">{{ $ticket->category->name ?? 'N/A' }}</td>
-                                <td data-label="Stato">{{$ticket->state}}</td>
+                                <td data-label="Stato">{{ $ticket->state }}</td>
                                 <td data-label="Azioni" style="width: 3rem">
                                     <div class="d-flex flex-column flex-sm-row justify-content-between">
                                         <a href="{{ route('admin.tickets.edit', $ticket->id) }}" class="btn btn-warning flex-grow-1 mb-2 btn-custom">
@@ -69,40 +89,37 @@
                                     </div>
                                 </td>
                             </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                        @endforeach
+                    </tbody>
+                </table>
 
-                    <div class="d-flex flex-wrap justify-content-between align-items-center mt-3">
-                        <div class="px-3 px-md-5">
-                            Mostra
-                            <strong>{{ $tickets->firstItem() }}</strong> a
-                            <strong>{{ $tickets->lastItem() }}</strong> di
-                            <strong>{{ $tickets->total() }}</strong> risultati
+                <div class="d-flex flex-wrap justify-content-between align-items-center mt-3">
+                    <div class="px-3 px-md-5">
+                        Mostra
+                        <strong>{{ $tickets->firstItem() }}</strong> a
+                        <strong>{{ $tickets->lastItem() }}</strong> di
+                        <strong>{{ $tickets->total() }}</strong> risultati
+                    </div>
+                    <div class="mt-2 mt-md-0">
+                        <div style="white-space: nowrap;">
+                            {{ $tickets->links('vendor.pagination.bootstrap-4') }}
                         </div>
-                        <div class="mt-2 mt-md-0">
-                            <div style="white-space: nowrap;">
-                                {{ $tickets->links('vendor.pagination.bootstrap-4') }}
-                            </div>
-                        </div>
+                    </div>
                 </div>
 
             @else
-            <p class="text-center">Il menù attualmente è vuoto.</p>
+                <p class="text-center">Il menù attualmente è vuoto.</p>
             @endif
         </div>
-
     </div>
 @endsection
 
 <style scoped>
-
-
     .btn-custom {
-    height: 2rem; /* Imposta l'altezza desiderata */
-    min-width: 5rem; /* Imposta una larghezza minima per entrambi i bottoni */
-    margin-right: 0.5rem
-}
+        height: 2rem; /* Imposta l'altezza desiderata */
+        min-width: 5rem; /* Imposta una larghezza minima per entrambi i bottoni */
+        margin-right: 0.5rem;
+    }
 
     .container {
         height: auto; /* Mantieni l'altezza auto per adattarsi al contenuto */
@@ -122,8 +139,9 @@
         overflow: hidden; /* Nasconde il contenuto in eccesso */
         text-overflow: ellipsis; /* Mostra i puntini di sospensione se il testo è troppo lungo */
     }
-    .btn-add-ticket{
-        width: 20rem
+
+    .btn-add-ticket {
+        width: 20rem;
     }
 
     @media (max-width: 576px) {
@@ -163,18 +181,20 @@
         .table-sm tr:not(:last-child) {
             margin-bottom: 20px; /* Aggiunge margine solo alle righe che non sono ultime */
         }
+
         .btn-custom {
-        height: 2rem; /* Imposta l'altezza desiderata */
-        min-width: 5rem; /* Imposta una larghezza minima per entrambi i bottoni */
-        margin-right: 0
+            height: 2rem; /* Imposta l'altezza desiderata */
+            min-width: 5rem; /* Imposta una larghezza minima per entrambi i bottoni */
+            margin-right: 0;
         }
-        .btn-add-ticket{
+
+        .btn-add-ticket {
             width: 100%;
         }
-        .search-bar{
+
+        .search-bar {
             padding-left: 1rem;
             padding-right: 1rem;
         }
-
     }
 </style>
