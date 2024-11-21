@@ -59,6 +59,11 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{{ url('/') }}">{{ __('Home') }}</a>
                         </li>
+                        @auth
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ url('/admin/tickets') }}">{{ __('Tickets') }}</a>
+                        </li>
+                        @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->
