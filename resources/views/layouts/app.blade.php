@@ -12,6 +12,11 @@
       <!-- Favicon -->
   <link rel="icon" href="{{ asset('images/icon-ticket-platform.png') }}" type="image/x-icon">
 
+      <!-- Fontawesome 6 cdn -->
+      <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css'
+      integrity='sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=='
+      crossorigin='anonymous' referrerpolicy='no-referrer' />
+
   {{-- sweetalert2 --}}
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
